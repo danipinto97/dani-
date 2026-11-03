@@ -9,6 +9,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+
+  <!-- App (PWA) -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#3a241c">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Francisca">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
 </head>
 <body>
 
@@ -133,6 +143,17 @@
     </section>
   </main>
 
+  <!-- Convite para instalar a app -->
+  <div class="install" id="install" hidden>
+    <img src="icons/icon-192.png" alt="" width="44" height="44">
+    <div class="install-text">
+      <strong>Instalar a app</strong>
+      <span id="install-msg">Tenha o site da Francisca no ecrã do telemóvel.</span>
+    </div>
+    <button class="btn install-btn" id="install-btn" type="button">Instalar</button>
+    <button class="install-close" id="install-close" type="button" aria-label="Fechar">×</button>
+  </div>
+
   <footer>
     <p>© <span id="ano"></span> Francisca · Engenharia Biomédica</p>
   </footer>
@@ -167,6 +188,47 @@
         dropdown.classList.add('open');
       }
     }, true);
+
+    // ---------- App (PWA) ----------
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+    }
+
+    const box = document.getElementById('install');
+    const btn = document.getElementById('install-btn');
+    const msg = document.getElementById('install-msg');
+    const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+    const dismissed = () => { try { return localStorage.getItem('install-dismissed') === '1'; } catch { return false; } };
+    let deferred = null;
+
+    // Android / Chrome / Edge: botão de instalação nativo
+    window.addEventListener('beforeinstallprompt', e => {
+      e.preventDefault();
+      deferred = e;
+      if (!standalone && !dismissed()) box.hidden = false;
+    });
+    btn.addEventListener('click', async () => {
+      if (!deferred) return;
+      deferred.prompt();
+      await deferred.userChoice;
+      deferred = null;
+      box.hidden = true;
+    });
+
+    // iPhone / iPad (Safari): explicar como adicionar ao ecrã principal
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+                  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    if (isIOS && !standalone && !dismissed()) {
+      msg.innerHTML = 'Toque em <b>Partilhar</b> <span aria-hidden="true">⎋</span> e depois em <b>Adicionar ao ecrã principal</b>.';
+      btn.hidden = true;
+      setTimeout(() => { box.hidden = false; }, 2500);
+    }
+
+    document.getElementById('install-close').addEventListener('click', () => {
+      box.hidden = true;
+      try { localStorage.setItem('install-dismissed', '1'); } catch {}
+    });
+    window.addEventListener('appinstalled', () => { box.hidden = true; });
   </script>
 </body>
 </html>
