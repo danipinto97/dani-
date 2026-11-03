@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dani</title>
+  <meta name="description" content="Dani — estilo, luz e elegância intemporal.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="nav">
+    <a href="#inicio" class="logo">Dani<span>.</span></a>
+    <nav>
+      <a href="#sobre">Sobre</a>
+      <a href="#estilo">Estilo</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section id="inicio" class="hero">
+      <div class="hero-text reveal">
+        <p class="eyebrow">Estilo · Luz · Detalhe</p>
+        <h1>Dani</h1>
+        <p class="lead">Elegância descontraída, tons quentes e o brilho dourado de uma tarde de sol.</p>
+        <a href="#sobre" class="btn">Conhecer</a>
+      </div>
+      <figure class="hero-photo reveal">
+        <img src="assets/dani.jpg" alt="Dani com óculos de sol, vestido castanho acetinado e xaile cor de marfim, em frente a uma parede de hera" width="1399" height="1400">
+      </figure>
+    </section>
+
+    <!-- SOBRE -->
+    <section id="sobre" class="about">
+      <div class="about-inner reveal">
+        <p class="eyebrow">Sobre mim</p>
+        <h2>Uma estética feita de <em>contrastes suaves</em></h2>
+        <p>
+          O castanho profundo do cetim, a leveza do marfim, o verde da hera e o toque
+          inconfundível do dourado. É assim que gosto de viver e de me vestir: com calma,
+          intenção e atenção aos pequenos detalhes que fazem toda a diferença.
+        </p>
+        <p>
+          Este é o meu cantinho na internet — um lugar para partilhar inspiração,
+          looks, viagens e tudo aquilo que me faz sorrir.
+        </p>
+      </div>
+    </section>
+
+    <!-- ESTILO -->
+    <section id="estilo" class="style">
+      <div class="section-head reveal">
+        <p class="eyebrow">O meu estilo</p>
+        <h2>Os essenciais</h2>
+      </div>
+
+      <div class="cards">
+        <article class="card reveal">
+          <span class="num">01</span>
+          <h3>Cetim castanho</h3>
+          <p>Gola descaída, caimento fluido e um tom chocolate que aquece qualquer momento.</p>
+        </article>
+        <article class="card reveal">
+          <span class="num">02</span>
+          <h3>Xaile marfim</h3>
+          <p>Leve e envolvente, a peça que suaviza o look e acompanha o fim de tarde.</p>
+        </article>
+        <article class="card reveal">
+          <span class="num">03</span>
+          <h3>Detalhes dourados</h3>
+          <p>Bracelete martelada, fio delicado e uma mala metalizada com argolas — brilho na medida certa.</p>
+        </article>
+        <article class="card reveal">
+          <span class="num">04</span>
+          <h3>Óculos clássicos</h3>
+          <p>Armação preta e intemporal. Porque há acessórios que nunca saem de moda.</p>
+        </article>
+      </div>
+
+      <div class="palette reveal" aria-label="Paleta de cores">
+        <div style="--c: var(--espresso)"><span>Espresso</span></div>
+        <div style="--c: var(--ivy)"><span>Hera</span></div>
+        <div style="--c: var(--gold)"><span>Dourado</span></div>
+        <div style="--c: var(--ivory)" class="light"><span>Marfim</span></div>
+      </div>
+    </section>
+
+    <!-- CITAÇÃO -->
+    <section class="quote">
+      <blockquote class="reveal">
+        “A elegância não é ser notada, é ser lembrada.”
+        <cite>— Giorgio Armani</cite>
+      </blockquote>
+    </section>
+
+    <!-- CONTACTO -->
+    <section id="contacto" class="contact">
+      <div class="reveal">
+        <p class="eyebrow">Vamos falar</p>
+        <h2>Diz olá</h2>
+        <p>Colaborações, parcerias ou apenas uma conversa — estou por aqui.</p>
+        <div class="links">
+          <a href="https://instagram.com/" target="_blank" rel="noopener" class="btn">Instagram</a>
+          <a href="mailto:ola@exemplo.com" class="btn btn-ghost">Email</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© <span id="ano"></span> Dani · Feito com carinho</p>
+  </footer>
+
+  <script>
+    document.getElementById('ano').textContent = new Date().getFullYear();
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
